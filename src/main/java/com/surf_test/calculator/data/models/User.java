@@ -7,11 +7,13 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Data
 @NoArgsConstructor
+@Table(name = "user_table")
 public class User {
     /**
      * Поле id
@@ -35,13 +37,8 @@ public class User {
     @NotBlank
     private String surname;
 
-    @OneToMany(mappedBy = "user")
-    private Set<HistoryOfComputing> historyOfComputings;
-
-    public User(@NotNull @NotBlank String name, @NotNull @NotBlank String surname) {
-        this.name = name;
-        this.surname = surname;
-    }
+    @OneToMany(mappedBy = "owner")
+    private List<HistoryOfComputing> historyOfComputings;
 
     public String getUserId() {
         return userId;

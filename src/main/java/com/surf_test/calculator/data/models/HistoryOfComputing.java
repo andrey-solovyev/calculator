@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @NoArgsConstructor
+@Table(name = "history_of_computing")
 public class HistoryOfComputing {
     /**
      * Поле id
@@ -43,8 +44,8 @@ public class HistoryOfComputing {
     private double result;
 
     @ManyToOne
-    @JoinColumn(name = "userId", nullable = true)
-    private User user;
+    @JoinColumn(name = "ownerId", nullable = true)
+    private User owner;
 
 
     /**
@@ -57,7 +58,7 @@ public class HistoryOfComputing {
     public HistoryOfComputing(@NotNull @NotBlank String originalExpression, double result) {
         this.originalExpression = originalExpression;
         this.result = result;
-        this.user = null;
+        this.owner = null;
     }
 
     /**
@@ -71,7 +72,7 @@ public class HistoryOfComputing {
     public HistoryOfComputing(@NotNull @NotBlank String originalExpression, double result, User user) {
         this.originalExpression = originalExpression;
         this.result = result;
-        this.user = user;
+        this.owner = user;
     }
 
     /**
