@@ -21,19 +21,19 @@ public interface HistoryOfComputingRepository extends PagingAndSortingRepository
     /**
      * поиск по id, который в формате uuid
      */
-    @Query("select h from HistoryOfComputing d where d.id = id")
+    @Query("select h from HistoryOfComputing h where h.id = ?1")
     HistoryOfComputing findById(String id);
 
     /**
      * поиск всех выражений в бд
      */
-    @Query("select h from HistoryOfComputing h where h.originalExpression = expression")
+    @Query("select h from HistoryOfComputing h where h.originalExpression = ?1")
     Iterator<HistoryOfComputing> findAllByOriginalExpression(String expression);
 
     /**
      * поиск между датами
      */
 //    TEST!!!
-    @Query("select h from HistoryOfComputing h where h.created between TO_TIMESTAMP(date_start,'YYYY-MM-DD HH:MI:SS' AND TO_TIMESTAMP(date_end,'YYYY-MM-DD HH:MI:SS'")
-    Iterator<HistoryOfComputing> findAllByCreated(String date_start, String date_end);
+//    @Query("select h from HistoryOfComputing h where h.created between TO_TIMESTAMP(date_start,'YYYY-MM-DD HH:MI:SS' AND TO_TIMESTAMP(date_end,'YYYY-MM-DD HH:MI:SS'")
+//    Iterator<HistoryOfComputing> findAllByCreated(String date_start, String date_end);
 }

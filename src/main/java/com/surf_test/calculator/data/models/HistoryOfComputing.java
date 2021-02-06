@@ -14,41 +14,71 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class HistoryOfComputing {
-    /** Поле id */
+    /**
+     * Поле id
+     */
     @NotNull
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Column(insertable = false, updatable = false)
     private String id;
-    /** Поле originalExpression, хранит в себе исходное выражение */
+    /**
+     * Поле originalExpression, хранит в себе исходное выражение
+     */
     @NotNull
     @NotBlank
     private String originalExpression;
 
-    /** Поле created, хранит дату сохранения выражения в бд */
+    /**
+     * Поле created, хранит дату сохранения выражения в бд
+     */
     @Column(insertable = true, updatable = false)
     private LocalDateTime created;
 
-    /** Поле result, хранит результат вычисления */
+    /**
+     * Поле result, хранит результат вычисления
+     */
     @Column
     private double result;
 
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = true)
+    private User user;
+
+
     /**
      * Конструктор - создание нового объекта с определенными значениями
+     *
      * @param originalExpression - выражение
-     * @param result - результат вычисления
+     * @param result             - результат вычисления
      * @see HistoryOfComputing()
      */
     public HistoryOfComputing(@NotNull @NotBlank String originalExpression, double result) {
         this.originalExpression = originalExpression;
         this.result = result;
+        this.user = null;
+    }
+
+    /**
+     * Конструктор - создание нового объекта с определенными значениями, такой вид конструктора нужен для авторизованных пользователей
+     *
+     * @param originalExpression - выражение
+     * @param result             - результат вычисления
+     * @param user               - юзер
+     * @see HistoryOfComputing()
+     */
+    public HistoryOfComputing(@NotNull @NotBlank String originalExpression, double result, User user) {
+        this.originalExpression = originalExpression;
+        this.result = result;
+        this.user = user;
     }
 
     /**
      * PrePersist аннотация,вызываемая во всех действиях связанных с сохранением данных
      */
     @PrePersist
-    void onCreate(){
+    void onCreate() {
         this.setCreated(LocalDateTime.now());
     }
 
