@@ -37,6 +37,10 @@ public class User {
     @NotBlank
     private String surname;
 
+
+    @NotNull
+    @NotBlank
+    private String password;
     @OneToMany(mappedBy = "owner")
     private List<HistoryOfComputing> historyOfComputings;
 
@@ -62,5 +66,13 @@ public class User {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
