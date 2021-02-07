@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@NoArgsConstructor
 @Table(name = "history_of_computing")
 public class HistoryOfComputing {
     /**
