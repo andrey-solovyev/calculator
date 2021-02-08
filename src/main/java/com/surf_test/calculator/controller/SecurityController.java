@@ -35,7 +35,7 @@ public class SecurityController {
         userService.registerNewUser(registerUserDto);
     }
 
-    @RequestMapping(method = POST, path = "/login")
+//    @RequestMapping(method = POST, path = "/login")
 
 
 }
