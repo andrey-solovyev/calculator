@@ -1,0 +1,63 @@
+package com.surf_test.calculator.data.models;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.Objects;
+
+@Entity
+@Data
+@NoArgsConstructor
+@Table(name = "role_user")
+public class UserRole {
+    /**
+     * Поле id
+     */
+    @NotNull
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Column(insertable = false, updatable = false)
+    private String userId;
+
+    /**
+     * Поле name, хранит в себе имя человека
+     */
+    @NotNull
+    @NotBlank
+    private String name;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserRole userRole = (UserRole) o;
+        return Objects.equals(userId, userRole.userId) &&
+                Objects.equals(name, userRole.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, name);
+    }
+}

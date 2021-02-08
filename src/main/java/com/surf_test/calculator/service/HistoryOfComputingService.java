@@ -25,7 +25,12 @@ public class HistoryOfComputingService {
         this.historyOfComputingRepository.save(historyOfComputing);
     }
 
-    public void findByExpression(String expression){
+    public HistoryOfComputing findById(String uuid) {
+        return this.historyOfComputingRepository.findById(uuid);
+    }
+
+    public List<HistoryOfComputing> findByExpression(String expression) {
+        return this.historyOfComputingRepository.findAllByOriginalExpression(expression);
 
     }
 }

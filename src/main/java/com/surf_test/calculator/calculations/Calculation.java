@@ -46,7 +46,7 @@ public class Calculation {
 //        }
 //        return vals.pop();
 //    }
-    public static double calculate(String expression) {
+    public static double calculate(String expression){
         ExpressionParser parser = new SpelExpressionParser();
         return parser.parseExpression(expression).getValue(Double.class);
     }
