@@ -10,11 +10,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -72,11 +74,11 @@ public class CalculationController {
      * @return list<HistoryOfComputing></HistoryOfComputing> - объектов с данными о вычислении
      */
 
-    @RequestMapping(method = GET,path = "/all/{expression}")
-    public ResponseEntity<HistoryOfComputing> finAllExpressionForUser(@PathVariable String expression){
-        HistoryOfComputing historyOfComputing = historyOfComputingService.findByExpression(expression);
-        return historyOfComputing != null
-                ? new ResponseEntity<HistoryOfComputing>(historyOfComputing, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+//    @RequestMapping(method = GET,path = "/all/{expression}")
+//    public ResponseEntity<HistoryOfComputing> finAllExpressionForUser(@PathVariable String expression){
+//        List<HistoryOfComputing> historyOfComputing = historyOfComputingService.findByExpression(expression);
+//        return historyOfComputing != null
+//                ? new ResponseEntity<HistoryOfComputing>(historyOfComputing, HttpStatus.OK)
+//                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    }
 }

@@ -84,4 +84,20 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public List<HistoryOfComputing> getHistoryOfComputings() {
+        return historyOfComputings;
+    }
+
+    public void setHistoryOfComputings(List<HistoryOfComputing> historyOfComputings) {
+        this.historyOfComputings = historyOfComputings;
+    }
+
+    public List<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
 }

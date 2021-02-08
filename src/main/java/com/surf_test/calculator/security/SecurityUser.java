@@ -45,7 +45,7 @@ public class SecurityUser implements UserDetails {
         return true;
     }
 
-    public static UserDetails fromUser(User user){
-
-    }
+//    public static UserDetails fromUser(User user){
+//
+//    }
 }
