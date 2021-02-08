@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -31,6 +32,9 @@ public class UserRole {
     @NotBlank
     private String name;
 
+    @ManyToMany(mappedBy = "userRoles")
+    private List<User> users;
+
     public String getUserId() {
         return userId;
     }
@@ -45,6 +49,14 @@ public class UserRole {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     @Override

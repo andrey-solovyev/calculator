@@ -74,7 +74,7 @@ public class CalculationController {
 
     @RequestMapping(method = GET,path = "/all/{expression}")
     public ResponseEntity<HistoryOfComputing> finAllExpressionForUser(@PathVariable String expression){
-        HistoryOfComputing historyOfComputing = historyOfComputingService.findById(uuid);
+        HistoryOfComputing historyOfComputing = historyOfComputingService.findByExpression(expression);
         return historyOfComputing != null
                 ? new ResponseEntity<HistoryOfComputing>(historyOfComputing, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -44,6 +44,15 @@ public class User {
     @OneToMany(mappedBy = "owner")
     private List<HistoryOfComputing> historyOfComputings;
 
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "role_user",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "id")
+    )
+    private List<UserRole> userRoles;
+
     public String getUserId() {
         return userId;
     }
