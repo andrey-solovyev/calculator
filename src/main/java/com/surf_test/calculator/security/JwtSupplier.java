@@ -21,8 +21,8 @@ public class JwtSupplier {
     private final Key key;
     private final JwtParser jwtParser;
 
-    public JwtSupplier(@Value("${jwtSecret}") String key) {
-        this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(key));
+    public JwtSupplier(@Value("${jwtSecret}") String keys) {
+        this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(keys));
         this.jwtParser = Jwts.parserBuilder()
                 .setSigningKey(this.key)
                 .build();

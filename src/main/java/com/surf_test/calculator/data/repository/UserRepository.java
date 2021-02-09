@@ -13,7 +13,7 @@ public interface UserRepository extends PagingAndSortingRepository<User, UUID> {
     User findByName(String name);
 
 
-    @Query("select u from User u where u.userId = ?1")
+    @Query("select u from User u where u.id = ?1")
     User findById(String id);
 
 }

@@ -34,6 +34,6 @@ public interface HistoryOfComputingRepository extends PagingAndSortingRepository
      * поиск между датами
      */
 //    TEST!!!
-    @Query("select h from HistoryOfComputing h where h.created between TO_TIMESTAMP(?1,'YYYY-MM-DD HH:MI:SS' AND TO_TIMESTAMP(?2,'YYYY-MM-DD HH:MI:SS'")
+    @Query("select h from HistoryOfComputing h where h.created between TO_TIMESTAMP(?1,'YYYY-MM-DD HH:MI:SS') AND TO_TIMESTAMP(?2,'YYYY-MM-DD HH:MI:SS')")
     List<HistoryOfComputing> findAllByCreated(String date_start, String date_end);
 }

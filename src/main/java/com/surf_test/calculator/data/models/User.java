@@ -23,7 +23,7 @@ public class User {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(insertable = false, updatable = false)
-    private String userId;
+    private String id;
     /**
      * Поле name, хранит в себе имя человека
      */
@@ -53,12 +53,12 @@ public class User {
     )
     private List<UserRole> userRoles;
 
-    public String getUserId() {
-        return userId;
+    public String getid() {
+        return id;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setid(String id) {
+        this.id = id;
     }
 
     public String getName() {

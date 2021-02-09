@@ -23,7 +23,7 @@ public class UserRole {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(insertable = false, updatable = false)
-    private String userId;
+    private String id;
 
     /**
      * Поле name, хранит в себе имя человека
@@ -35,12 +35,12 @@ public class UserRole {
     @ManyToMany(mappedBy = "userRoles")
     private List<User> users;
 
-    public String getUserId() {
-        return userId;
+    public String getid() {
+        return id;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setid(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -64,12 +64,12 @@ public class UserRole {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserRole userRole = (UserRole) o;
-        return Objects.equals(userId, userRole.userId) &&
+        return Objects.equals(id, userRole.id) &&
                 Objects.equals(name, userRole.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, name);
+        return Objects.hash(id, name);
     }
 }
