@@ -35,15 +35,15 @@ public class JwtSupplier {
 
         Date exDate = Date.from(
                 LocalDate.now()
-                        .plusDays(24)
+                        .plusDays(7)
                         .atStartOfDay(ZoneId.systemDefault()).toInstant()
         );
 
         return Jwts.builder()
                 .setExpiration(exDate)
                 .setSubject(name)
-                .setSubject(surname)
                 .claim("roles", roles)
+                .claim("surname", surname)
                 .signWith(key)
                 .compact();
     }

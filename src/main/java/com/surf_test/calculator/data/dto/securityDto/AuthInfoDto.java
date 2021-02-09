@@ -1,9 +1,13 @@
-package com.surf_test.calculator.security;
+package com.surf_test.calculator.data.dto.securityDto;
 
 import java.util.Objects;
 
-public class AuthInfo {
+public class AuthInfoDto {
     private String token;
+
+    public AuthInfoDto(String token) {
+        this.token = token;
+    }
 
     public String getToken() {
         return token;
@@ -13,11 +17,12 @@ public class AuthInfo {
         this.token = token;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AuthInfo authInfo = (AuthInfo) o;
+        AuthInfoDto authInfo = (AuthInfoDto) o;
         return Objects.equals(token, authInfo.token);
     }
 
