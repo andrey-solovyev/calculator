@@ -1,5 +1,6 @@
 package com.surf_test.calculator.service;
 
+import com.surf_test.calculator.controller.SecurityController;
 import com.surf_test.calculator.data.dto.securityDto.LoginUserDto;
 import com.surf_test.calculator.data.dto.securityDto.RegisterUserDto;
 import com.surf_test.calculator.data.models.User;
@@ -9,6 +10,8 @@ import com.surf_test.calculator.data.repository.UserRepository;
 import com.surf_test.calculator.exception.NullPointerException;
 import com.surf_test.calculator.data.dto.securityDto.AuthInfoDto;
 import com.surf_test.calculator.security.JwtSupplier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +19,11 @@ import java.util.*;
 
 @Service
 public class UserService {
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final RoleRepository roleRepository;
-    private final JwtSupplier jwtSupplier;
+    private  UserRepository userRepository;
+    private  PasswordEncoder passwordEncoder;
+    private  RoleRepository roleRepository;
+    private  JwtSupplier jwtSupplier;
+    private static Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository, JwtSupplier jwtSupplier) {
         this.userRepository = userRepository;

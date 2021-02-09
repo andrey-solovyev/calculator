@@ -47,6 +47,9 @@ public class HistoryOfComputing {
     private User owner;
 
 
+    public HistoryOfComputing() {
+    }
+
     /**
      * Конструктор - создание нового объекта с определенными значениями
      *

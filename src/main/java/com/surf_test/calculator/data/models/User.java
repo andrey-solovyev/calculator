@@ -38,6 +38,9 @@ public class User {
     private String surname;
 
 
+    /**
+     * Для нахождения всех вычислений человеком
+     */
     @NotNull
     @NotBlank
     private String password;

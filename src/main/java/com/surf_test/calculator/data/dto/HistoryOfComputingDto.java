@@ -19,6 +19,7 @@ public class HistoryOfComputingDto {
      */
     private double result;
 
+
     public String getId() {
         return id;
     }

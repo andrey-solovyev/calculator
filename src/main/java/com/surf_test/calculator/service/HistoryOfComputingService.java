@@ -1,5 +1,6 @@
 package com.surf_test.calculator.service;
 
+import com.surf_test.calculator.data.dto.HistoryOfComputingDto;
 import com.surf_test.calculator.data.models.HistoryOfComputing;
 import com.surf_test.calculator.data.repository.HistoryOfComputingRepository;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,16 @@ public class HistoryOfComputingService {
     public List<HistoryOfComputing> findByExpression(String expression) {
         return this.historyOfComputingRepository.findAllByOriginalExpression(expression);
 
+    }
+    public List<HistoryOfComputing> findByPeroidOfTime(String startDate,String endDate){
+        List<HistoryOfComputing> historyOfComputings = historyOfComputingRepository.findAllByCreated(startDate,endDate);
+        return historyOfComputings;
+    }
+    public HistoryOfComputingDto convertToDto(HistoryOfComputing historyOfComputing){
+        HistoryOfComputingDto historyOfComputingDto=new HistoryOfComputingDto();
+        historyOfComputingDto.setResult(historyOfComputing.getResult());
+        historyOfComputingDto.setOriginalExpression(historyOfComputing.getOriginalExpression());
+        historyOfComputingDto.setId(historyOfComputing.getId());
+        return historyOfComputingDto;
     }
 }

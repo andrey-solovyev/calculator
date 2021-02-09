@@ -4,6 +4,7 @@ import com.surf_test.calculator.data.models.HistoryOfComputing;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.Iterator;
@@ -21,14 +22,14 @@ public interface HistoryOfComputingRepository extends PagingAndSortingRepository
     /**
      * поиск по id, который в формате uuid
      */
-    @Query("select h from HistoryOfComputing h where h.id = ?1")
-    HistoryOfComputing findById(String id);
+    @Query("select h from HistoryOfComputing h where h.id = :id")
+    HistoryOfComputing findById(@Param("id") String id);
 
     /**
      * поиск всех выражений в бд
      */
-    @Query("select h from HistoryOfComputing h where h.originalExpression = ?1")
-    List<HistoryOfComputing> findAllByOriginalExpression(String expression);
+    @Query("select h from HistoryOfComputing h where h.originalExpression = :expression")
+    List<HistoryOfComputing> findAllByOriginalExpression(@Param("expression") String expression);
 
     /**
      * поиск между датами

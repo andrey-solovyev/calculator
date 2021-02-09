@@ -35,7 +35,6 @@ public class SecurityController {
 
     @RequestMapping(method = POST, path = "/login")
     public AuthInfoDto loginUser(@RequestBody LoginUserDto loginUserDto) {
-        logger.error("login");
         User user = userService.findByLoginUserDto(loginUserDto);
         if (user == null) {
             throw new RuntimeException("Invalid login or password");

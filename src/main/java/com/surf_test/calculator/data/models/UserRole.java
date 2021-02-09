@@ -32,7 +32,7 @@ public class UserRole {
     @NotBlank
     private String name;
 
-    @ManyToMany(mappedBy = "userRoles")
+    @ManyToMany(mappedBy = "userRoles",fetch = FetchType.EAGER)
     private List<User> users;
 
     public String getid() {
