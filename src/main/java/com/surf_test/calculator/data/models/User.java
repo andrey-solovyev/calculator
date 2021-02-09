@@ -45,9 +45,9 @@ public class User {
     private List<HistoryOfComputing> historyOfComputings;
 
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany()
     @JoinTable(
-            name = "role_user",
+            name = "role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "id")
     )

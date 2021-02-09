@@ -26,7 +26,7 @@ public class UserRole {
     private String id;
 
     /**
-     * Поле name, хранит в себе имя человека
+     * Поле name, хранит в себе роль
      */
     @NotNull
     @NotBlank

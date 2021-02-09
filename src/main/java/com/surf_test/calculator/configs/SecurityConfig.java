@@ -9,6 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -20,8 +22,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity
+                .httpBasic().disable()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(STATELESS)
+                .and()
                 .authorizeRequests()
                 .antMatchers(GET,"/api/v1/calculation/*").permitAll()
+                .antMatchers(POST,"/api/v1/security/*").anonymous()
                 .antMatchers(GET,"/api/v1/calculation/search/*").hasRole("USER")
                 .antMatchers(GET,"/api/v1/calculation/search/*").hasRole("ADMIN");
                 //.and().addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
