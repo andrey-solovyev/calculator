@@ -13,13 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -39,24 +37,25 @@ public class CalculationController {
 
     /**
      * метод для вычисления арифмитического выражения
+     *
      * @param expressionDto - выражение
-     * @return HistoryOfComputing - объект с данными о вычислении
+     * @return HistoryOfComputingDto - объект с данными о вычислении
      * ПРИМЕР json
      * {
-     *     "expression": "(1+2)*(4+(5-6/3))"
+     * "expression": "(1+2)*(4+(5-6/3))"
      * }
      */
     @RequestMapping(method = GET, path = "/expression")
     public ResponseEntity<HistoryOfComputingDto> getResult(@RequestBody ExpressionDto expressionDto) {
         Double result;
-        HistoryOfComputingDto historyOfComputingDto  = null;
+        HistoryOfComputingDto historyOfComputingDto = null;
 
         try {
             HistoryOfComputing historyOfComputing = null;
             result = Calculation.calculate(expressionDto.getExpression());
-            historyOfComputing = new HistoryOfComputing(expressionDto.getExpression(),result);
+            historyOfComputing = new HistoryOfComputing(expressionDto.getExpression(), result);
             historyOfComputingService.addOrUpdate(historyOfComputing);
-            historyOfComputingDto =historyOfComputingService.convertToDto(historyOfComputing);
+            historyOfComputingDto = historyOfComputingService.convertToDto(historyOfComputing);
         } catch (Exception e) {
             result = null;
             log.error(e.toString());
@@ -69,12 +68,13 @@ public class CalculationController {
 
     /**
      * метод для поиска арифмитического выражения по id
+     *
      * @param uuid - id записи
-     * @return HistoryOfComputing - объект с данными о вычислении
+     * @return HistoryOfComputingDto - объект с данными о вычислении
      */
-    @RequestMapping(method = GET,path = "/expression/id/{uuid}")
-    public ResponseEntity<HistoryOfComputingDto> expressionById(@PathVariable String uuid){
-         HistoryOfComputingDto historyOfComputing = historyOfComputingService.convertToDto(historyOfComputingService.findById(uuid));
+    @RequestMapping(method = GET, path = "/expression/id/{uuid}")
+    public ResponseEntity<HistoryOfComputingDto> expressionById(@PathVariable String uuid) {
+        HistoryOfComputingDto historyOfComputing = historyOfComputingService.convertToDto(historyOfComputingService.findById(uuid));
         return historyOfComputing != null
                 ? new ResponseEntity<HistoryOfComputingDto>(historyOfComputing, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -82,15 +82,19 @@ public class CalculationController {
 
 
     /**
-     * метод для поиска арифмитического выражения по id
-     * @param uuid - id записи
-     * @return HistoryOfComputing - объект с данными о вычислении
+     * метод для поиска арифмитического выражения периоду времени
+     *
+     * @param  dateStart, endDate - даты для поиска
+     * @return List<HistoryOfComputingDto> - объект с данными о вычислении
      */
-    @RequestMapping(method = GET,path = "/expression/period?dateStart={dateStart}?endDate={endDate}")
-    public ResponseEntity<List<HistoryOfComputingDto>> expressionByPeriodOfTime(@PathVariable String dateStart,@PathVariable String endDate){
-        HistoryOfComputingDto historyOfComputing = historyOfComputingService.convertToDto(historyOfComputingService.f(uuid));
-        return historyOfComputing != null
-                ? new ResponseEntity<HistoryOfComputing>(historyOfComputing, HttpStatus.OK)
+    @RequestMapping(method = GET, path = "/expression/period")
+    @ResponseBody
+    public ResponseEntity<List<HistoryOfComputingDto>> expressionByPeriodOfTime(@RequestParam String dateStart, @RequestParam String endDate) {
+        List<HistoryOfComputingDto> historyOfComputingDto = historyOfComputingService.findByPeroidOfTime(dateStart, endDate)
+                .stream()
+                .collect(Collectors.mapping(e -> historyOfComputingService.convertToDto(e), Collectors.toList()));
+        return historyOfComputingDto != null
+                ? new ResponseEntity<List<HistoryOfComputingDto>>(historyOfComputingDto, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     /**
@@ -98,12 +102,13 @@ public class CalculationController {
      * @param expression - id записи
      * @return list<HistoryOfComputing></HistoryOfComputing> - объектов с данными о вычислении
      */
-
-//    @RequestMapping(method = GET,path = "/all/{expression}")
-//    public ResponseEntity<HistoryOfComputing> finAllExpressionForUser(@PathVariable String expression){
-//        List<HistoryOfComputing> historyOfComputing = historyOfComputingService.findByExpression(expression);
-//        return historyOfComputing != null
-//                ? new ResponseEntity<HistoryOfComputing>(historyOfComputing, HttpStatus.OK)
-//                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
+    @RequestMapping(method = GET,path = "/all")
+    public ResponseEntity<List<HistoryOfComputingDto>> finAllExpressionForUser(@RequestParam String expression){
+        List<HistoryOfComputingDto> historyOfComputingDto = historyOfComputingService.findByExpression(expression)
+                .stream()
+                .collect(Collectors.mapping(e -> historyOfComputingService.convertToDto(e), Collectors.toList()));
+        return historyOfComputingDto != null
+                ? new ResponseEntity<List<HistoryOfComputingDto>>(historyOfComputingDto, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }

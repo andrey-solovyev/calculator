@@ -27,12 +27,21 @@ public class SecurityController {
         this.userService = userService;
     }
 
+    /**
+     * метод регистрации новых пользователей
+     * @param registerUserDto - dto для регистрации
+     * @return Status
+     */
     @RequestMapping(method = POST, path = "/register")
     @ResponseStatus(HttpStatus.CREATED)
     public void registerNewUser(@RequestBody RegisterUserDto registerUserDto) {
         userService.registerNewUser(registerUserDto);
     }
-
+    /**
+     * метод Аутентификация  для пользоватлея
+     * @param loginUserDto - dto для выхода
+     * @return AuthInfoDto - где хранится токен для пользователя
+     */
     @RequestMapping(method = POST, path = "/login")
     public AuthInfoDto loginUser(@RequestBody LoginUserDto loginUserDto) {
         User user = userService.findByLoginUserDto(loginUserDto);

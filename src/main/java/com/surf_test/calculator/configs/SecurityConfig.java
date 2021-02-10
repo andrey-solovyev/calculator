@@ -31,6 +31,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(POST,"/api/v1/security/*").anonymous()
                 .antMatchers(GET,"/api/v1/calculation/search/*").hasRole("USER")
                 .antMatchers(GET,"/api/v1/calculation/search/*").hasRole("ADMIN");
-                //.and().addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
