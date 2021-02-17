@@ -2,7 +2,6 @@ package com.surf_test.calculator.data.models;
 
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;

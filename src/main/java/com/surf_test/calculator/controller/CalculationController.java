@@ -4,7 +4,6 @@ import com.surf_test.calculator.calculations.Calculation;
 import com.surf_test.calculator.data.dto.ExpressionDto;
 import com.surf_test.calculator.data.dto.HistoryOfComputingDto;
 import com.surf_test.calculator.data.models.HistoryOfComputing;
-import com.surf_test.calculator.data.repository.HistoryOfComputingRepository;
 import com.surf_test.calculator.service.HistoryOfComputingService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -15,12 +14,10 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping("/api/v1/calculation")
@@ -52,7 +49,7 @@ public class CalculationController {
 
         try {
             HistoryOfComputing historyOfComputing = null;
-            result = Calculation.calculate(expressionDto.getExpression());
+            result = new Calculation(expressionDto.getExpression()).start();
             historyOfComputing = new HistoryOfComputing(expressionDto.getExpression(), result);
             historyOfComputingService.addOrUpdate(historyOfComputing);
             historyOfComputingDto = historyOfComputingService.convertToDto(historyOfComputing);
@@ -84,7 +81,7 @@ public class CalculationController {
     /**
      * метод для поиска арифмитического выражения периоду времени
      *
-     * @param  dateStart, endDate - даты для поиска
+     * @param dateStart, endDate - даты для поиска
      * @return List<HistoryOfComputingDto> - объект с данными о вычислении
      */
     @RequestMapping(method = GET, path = "/expression/period")
@@ -97,13 +94,15 @@ public class CalculationController {
                 ? new ResponseEntity<List<HistoryOfComputingDto>>(historyOfComputingDto, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
     /**
      * метод для поиска арифмитических выражений по исходному выражению
+     *
      * @param expression - id записи
      * @return list<HistoryOfComputing></HistoryOfComputing> - объектов с данными о вычислении
      */
-    @RequestMapping(method = GET,path = "/all")
-    public ResponseEntity<List<HistoryOfComputingDto>> finAllExpressionForUser(@RequestParam String expression){
+    @RequestMapping(method = GET, path = "/all")
+    public ResponseEntity<List<HistoryOfComputingDto>> finAllExpressionForUser(@RequestParam String expression) {
         List<HistoryOfComputingDto> historyOfComputingDto = historyOfComputingService.findByExpression(expression)
                 .stream()
                 .collect(Collectors.mapping(e -> historyOfComputingService.convertToDto(e), Collectors.toList()));

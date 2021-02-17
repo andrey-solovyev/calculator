@@ -1,53 +1,86 @@
 package com.surf_test.calculator.calculations;
 
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+
+import static java.lang.Double.parseDouble;
 
 public class Calculation {
 
     /**
-     * Для вычисления выражений использовался: Двухстековый алгоритм Дейкстры для вычисления выражений
+     * Написан алгоритм для вычисления базовых выражений
      *
      * @param expression - выражение
      * @return double - возвращает результат вычисления
      */
-//    public static double calculate(String expression) {
-//        Queue<String> queue = new LinkedList<>();
-//        queue.addAll(Arrays.asList(("(" + expression + ")").split("")));
-//        Stack<String> ops = new Stack<String>();
-//        Stack<Double> vals = new Stack<Double>();
-//        while (!queue.isEmpty()) {
-//            String mark = queue.poll();
-//            if (mark.equals("(")) ;
-//            else if (mark.equals("+")) ops.push(mark);
-//            else if (mark.equals("-")) ops.push(mark);
-//            else if (mark.equals("*")) ops.push(mark);
-//            else if (mark.equals("/")) ops.push(mark);
-//            else if (mark.equals("sqrt")) ops.push(mark);
-//            else if (mark.equals("^")) ops.push(mark);
-//            else if (mark.equals(")")) {
-//                double v = vals.pop();
-//                String op = ops.pop();
-//                if (op.equals("+")) v = vals.pop() + v;
-//                else if (op.equals("-")) v = vals.pop() - v;
-//                else if (op.equals("*")) v = vals.pop() * v;
-//                else if (op.equals("/")) v = vals.pop() / v;
-//                else if (op.equals("sqrt")) v = Math.sqrt(v);
-//                else if (op.equals("^")) v = Math.pow(v, vals.pop());
-//                vals.push(v);
-//            } else {
-//                vals.push(Double.parseDouble(mark));
-//            }
-//        }
-//        return vals.pop();
-//    }
-    public static double calculate(String expression){
-        ExpressionParser parser = new SpelExpressionParser();
-        return parser.parseExpression(expression).getValue(Double.class);
+
+    private String expression;
+    private int pos;
+
+    public Calculation(String expression) {
+        this.expression = expression + "$";
+        this.pos = 0;
+    }
+
+    public double start() {
+        return add();
+    }
+
+    private String current() {
+        return expression.split("")[pos].replaceAll("\\s+", "");
+    }
+
+    private double num() {
+        String tmp = "";
+        while (isNumeric(current()) || current() == ".") {
+            tmp += current();
+            pos++;
+        }
+        return parseDouble(tmp);
+    }
+
+    private double group() {
+        if (current().equals("(")) {
+            pos++;
+            double res = add();
+            pos++;
+            return res;
+        } else {
+            return num();
+        }
+    }
+
+    private double mult() {
+        double res = group();
+        while (Arrays.stream(new String[]{"*", "/"}).anyMatch(current()::equals)) {
+            String op = current();
+            pos++;
+            double tmp = group();
+            res = op.equals("*") ? res * tmp : res / tmp;
+        }
+        return res;
+    }
+
+    private double add() {
+        double res = mult();
+        while (Arrays.stream(new String[]{"+", "-"}).anyMatch(current()::equals)) {
+            String op = current();
+            pos++;
+            double tmp = mult();
+            res = op.equals("+") ? res + tmp : res - tmp;
+        }
+        return res;
+    }
+
+    private boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 }
