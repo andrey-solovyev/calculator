@@ -1,9 +1,14 @@
 package com.surf_test.calculator.security;
 
+import io.jsonwebtoken.Claims;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class SecurityUser implements UserDetails {
 
@@ -14,6 +19,17 @@ public class SecurityUser implements UserDetails {
         return grantedAuthorities;
     }
 
+    public static SecurityUser fromClaimsToCustomUserDetails(Claims claims) {
+        SecurityUser userDetails = new SecurityUser();
+        userDetails.userName = claims.getSubject();
+
+        var roles = claims.get("roles", String.class).split(",");
+        userDetails.grantedAuthorities = Arrays.stream(roles)
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+
+        return userDetails;
+    }
     @Override
     public String getPassword() {
         return null;

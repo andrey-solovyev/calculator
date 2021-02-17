@@ -1,6 +1,9 @@
 package com.surf_test.calculator.security;
 
+import com.surf_test.calculator.data.models.User;
 import com.surf_test.calculator.data.models.UserRole;
+import com.surf_test.calculator.service.UserService;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -13,8 +16,10 @@ import io.jsonwebtoken.Jwts;
 import java.security.Key;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtSupplier {
@@ -46,6 +51,20 @@ public class JwtSupplier {
                 .claim("surname", surname)
                 .signWith(key)
                 .compact();
+    }
+
+    public boolean isTokenValid(String token) {
+        try {
+            jwtParser.parse(token);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Invalid token");
+            return false;
+        }
+    }
+
+    public Claims getClaimsFromToken(String token) {
+        return jwtParser.parseClaimsJws(token).getBody();
     }
 }
 
